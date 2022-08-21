@@ -20,6 +20,7 @@ six_times_seconds = six_data.loc[:,"Time_Relative(S)"]
 six_tracker_pos = six_data.loc[:,"Tracter"]
 six_tracker_vel = six_data.loc[:,"velocity"]
 six_tracker_accel = six_data.loc[:,"acceleration"]
+
 five_tracker_pos_difference = five_tracker_input.subtract(five_tracker_pos)
 six_tracker_pos_difference = six_tracker_input.subtract(six_tracker_pos)
 
@@ -42,7 +43,15 @@ a2, b2 = np.polyfit(six_tracker_pos.to_numpy(), six_tracker_input.to_numpy(), 1)
 axs2[1].plot(six_tracker_pos.to_numpy(), a2*six_tracker_pos.to_numpy()+b2)
 for ax in axs2.flat:
     ax.set(xlabel='tracker position (mm)', ylabel='input position (mm)')
+five_r_pos_v_input_correlation_matrix = np.corrcoef(five_tracker_pos.to_numpy(), five_tracker_input.to_numpy())
+five_r_pos_v_input = five_r_pos_v_input_correlation_matrix[0][1]
+axs2[0].text(1, 1, 'r:  ' + str(five_r_pos_v_input), fontsize=12, color='r')
+
+six_r_pos_v_input_correlation_matrix = np.corrcoef(six_tracker_pos.to_numpy(), six_tracker_input.to_numpy())
+six_r_pos_v_input = six_r_pos_v_input_correlation_matrix[0][1]
+axs2[1].text(1, 1, 'r:  ' + str(six_r_pos_v_input), fontsize=12, color='r')
 plt.show()
+
 
 fig3, axs3 = plt.subplots(2)
 fig3.suptitle('Phantom Input Position vs Tracker Position - Input Displacement')
@@ -54,4 +63,11 @@ a4, b4 = np.polyfit(six_tracker_input.to_numpy(), six_tracker_pos_difference.to_
 axs3[1].plot(six_tracker_input.to_numpy(), a4*six_tracker_pos_difference.to_numpy()+b4)
 for ax in axs3.flat:
     ax.set(xlabel='input displacement (mm)', ylabel='difference (mm)')
+five_r_input_v_diff_correlation_matrix = np.corrcoef(five_tracker_pos.to_numpy(), five_tracker_pos_difference.to_numpy())
+five_r_input_v_diff = five_r_input_v_diff_correlation_matrix[0][1]
+axs3[0].text(1, 1, 'r:  ' + str(five_r_input_v_diff), fontsize=12, color='r')
+
+six_r_input_v_diff_correlation_matrix = np.corrcoef(six_tracker_pos.to_numpy(), six_tracker_pos_difference.to_numpy())
+six_r_input_v_diff = six_r_input_v_diff_correlation_matrix[0][1]
+axs3[1].text(1, 1, 'r:  ' + str(six_r_input_v_diff), fontsize=12, color='r')
 plt.show()
