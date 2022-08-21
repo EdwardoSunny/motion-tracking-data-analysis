@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 
 five_data = pd.read_excel('full_data/5.xlsx')
 six_data = pd.read_excel('full_data/6.xlsx')
@@ -50,6 +51,13 @@ axs2[0].text(1, 1, 'r:  ' + str(five_r_pos_v_input), fontsize=12, color='r')
 six_r_pos_v_input_correlation_matrix = np.corrcoef(six_tracker_pos.to_numpy(), six_tracker_input.to_numpy())
 six_r_pos_v_input = six_r_pos_v_input_correlation_matrix[0][1]
 axs2[1].text(1, 1, 'r:  ' + str(six_r_pos_v_input), fontsize=12, color='r')
+
+five_MSE = np.square(np.subtract(five_tracker_pos, five_tracker_input)).mean()
+five_RMSE = math.sqrt(five_MSE)
+axs2[0].text(-1, -1, 'RSME:  ' + str(five_RMSE), fontsize=12, color='r')
+six_MSE = np.square(np.subtract(six_tracker_pos, six_tracker_input)).mean()
+six_RMSE = math.sqrt(six_MSE)
+axs2[1].text(-1, -1, 'RSME:  ' + str(six_RMSE), fontsize=12, color='r')
 plt.show()
 
 
